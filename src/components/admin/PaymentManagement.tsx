@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { DollarSign, CreditCard, AlertTriangle, CheckCircle, Clock, Filter, Search, Download, Eye, Edit } from 'lucide-react';
-import { supabase } from '../../supabaseClient';
+import { DollarSign, CreditCard, AlertTriangle, CheckCircle, Clock, Filter, Search, Download, Eye, Edit, Send } from 'lucide-react';
+import { mockUsers } from '../../data/mockData';
 
 const PaymentManagement: React.FC = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -9,8 +9,8 @@ const PaymentManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    supabase.from('users').select('*').then(({ data }) => setUsers(data || []));
-    supabase.from('payments').select('*').then(({ data }) => setPayments(data || []));
+    setUsers(mockUsers);
+    setPayments(mockUsers);
   }, []);
 
   const filteredUsers = users.filter(user => {
@@ -164,33 +164,33 @@ const PaymentManagement: React.FC = () => {
             const remainingAmount = amount - paidAmount;
 
             return (
-              <div key={user.id} className="border border-gray-200 rounded-lg p-6">
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-3 mb-3">
-                      <h3 className="text-lg font-semibold text-gray-800">{user.name}</h3>
+            <div key={user.id} className="border border-gray-200 rounded-lg p-6">
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-3">
+                    <h3 className="text-lg font-semibold text-gray-800">{user.name}</h3>
                       <span className={`px-3 py-1 text-xs font-medium rounded-full flex items-center gap-1 ${getPaymentStatusColor(user.paymentStatus)}`}>
                         {getPaymentStatusIcon(user.paymentStatus)}
                         {user.paymentStatus === 'paid' ? 'Fully Paid' : 
                          user.paymentStatus === 'half_paid' ? 'Half Paid' : 'Unpaid'}
-                      </span>
-                    </div>
-                    
+                    </span>
+                  </div>
+                  
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
-                      <div>
-                        <span className="font-medium">Plan:</span> {user.planType.charAt(0).toUpperCase() + user.planType.slice(1)}
-                      </div>
-                      <div>
+                    <div>
+                      <span className="font-medium">Plan:</span> {user.planType.charAt(0).toUpperCase() + user.planType.slice(1)}
+                    </div>
+                    <div>
                         <span className="font-medium">Total Amount:</span> AED {amount.toLocaleString()}
                       </div>
                       <div>
                         <span className="font-medium">Paid Amount:</span> AED {paidAmount.toLocaleString()}
-                      </div>
-                      <div>
+                    </div>
+                    <div>
                         <span className="font-medium">Remaining:</span> AED {remainingAmount.toLocaleString()}
                       </div>
-                    </div>
-
+                  </div>
+                  
                     {user.paymentStatus !== 'paid' && (
                       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
                         <p className="text-sm text-yellow-800">
@@ -200,9 +200,9 @@ const PaymentManagement: React.FC = () => {
                             : ` Full payment of AED ${amount.toLocaleString()} is pending.`
                           }
                         </p>
-                      </div>
-                    )}
-                  </div>
+                    </div>
+                  )}
+                </div>
 
                   <div className="flex flex-wrap gap-2">
                     <button
@@ -228,8 +228,8 @@ const PaymentManagement: React.FC = () => {
                       >
                         <AlertTriangle className="w-4 h-4" />
                         Send Reminder
-                      </button>
-                    )}
+                    </button>
+                  )}
                   </div>
                 </div>
               </div>
@@ -269,7 +269,7 @@ const PaymentManagement: React.FC = () => {
               AED {filteredUsers.filter(u => u.paymentStatus === 'half_paid').reduce((sum, u) => 
                 sum + (u.planType === 'monthly' ? 375 : 4000), 0).toLocaleString()}
             </p>
-          </div>
+              </div>
           
           <div className="bg-red-50 p-4 rounded-lg">
             <h4 className="font-semibold text-red-800 mb-2">Unpaid</h4>
@@ -280,7 +280,7 @@ const PaymentManagement: React.FC = () => {
               AED {filteredUsers.filter(u => u.paymentStatus === 'unpaid').reduce((sum, u) => 
                 sum + (u.planType === 'monthly' ? 750 : 8000), 0).toLocaleString()}
             </p>
-          </div>
+            </div>
         </div>
       </div>
     </div>

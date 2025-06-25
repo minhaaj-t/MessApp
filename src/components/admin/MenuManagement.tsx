@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Plus, Edit, Trash2, Save, X, Calendar, Clock, Sun, Moon } from 'lucide-react';
-import { supabase } from '../../supabaseClient';
+import { Calendar, Plus, Edit2, Trash2, Save, X, Clock, Sun, Moon } from 'lucide-react';
+import { mockUsers } from '../../data/mockData';
 
 interface MenuItem {
   id: string;
@@ -31,8 +31,40 @@ const MenuManagement: React.FC = () => {
   const [cutoffTime, setCutoffTime] = useState('');
 
   useEffect(() => {
-    supabase.from('daily_menus').select('*').then(({ data }) => setMenus(data || []));
-    supabase.from('menu_items').select('*').then(({ data }) => setMenuItems(data || []));
+    setMenus([
+      {
+        id: '1',
+        date: '2024-06-10',
+        timeSlot: 'afternoon',
+        items: [
+          { id: '1', name: 'Rice', description: 'Steamed rice', isOptional: false, alternatives: [] },
+          { id: '2', name: 'Sambar', description: 'Lentil soup', isOptional: false, alternatives: [] },
+          { id: '3', name: 'Paneer Curry', description: 'Cottage cheese curry', isOptional: true, alternatives: ['Chicken Curry'] }
+        ],
+        notes: 'Special menu for today',
+        cutoffTime: '12:00'
+      },
+      {
+        id: '2',
+        date: '2024-06-10',
+        timeSlot: 'night',
+        items: [
+          { id: '4', name: 'Chapati', description: 'Whole wheat bread', isOptional: false, alternatives: [] },
+          { id: '5', name: 'Dal Fry', description: 'Fried lentils', isOptional: false, alternatives: [] },
+          { id: '6', name: 'Chicken Curry', description: 'Spicy chicken curry', isOptional: true, alternatives: ['Fish Curry'] }
+        ],
+        notes: 'Dinner menu',
+        cutoffTime: '18:00'
+      }
+    ]);
+    setMenuItems([
+      { id: '1', name: 'Rice', description: 'Steamed rice', isOptional: false, alternatives: [] },
+      { id: '2', name: 'Sambar', description: 'Lentil soup', isOptional: false, alternatives: [] },
+      { id: '3', name: 'Paneer Curry', description: 'Cottage cheese curry', isOptional: true, alternatives: ['Chicken Curry'] },
+      { id: '4', name: 'Chapati', description: 'Whole wheat bread', isOptional: false, alternatives: [] },
+      { id: '5', name: 'Dal Fry', description: 'Fried lentils', isOptional: false, alternatives: [] },
+      { id: '6', name: 'Chicken Curry', description: 'Spicy chicken curry', isOptional: true, alternatives: ['Fish Curry'] }
+    ]);
   }, []);
 
   const handleAddMenu = () => {
@@ -254,7 +286,7 @@ const MenuManagement: React.FC = () => {
                     onClick={() => handleEditMenu(menu)}
                     className="flex items-center gap-1 bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition-colors"
                   >
-                    <Edit className="w-3 h-3" />
+                    <Edit2 className="w-3 h-3" />
                     Edit
                   </button>
                   <button

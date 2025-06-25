@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AlertTriangle, Info, CheckCircle, Bell, Utensils, Clock } from 'lucide-react';
-import { supabase } from '../../supabaseClient';
+import { mockBanners, mockNotifications, mockUsers } from '../../data/mockData';
 import { User } from '../../types';
 
 interface Banner {
@@ -31,12 +31,18 @@ const UserBanners: React.FC<UserBannersProps> = ({ userId }) => {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   useEffect(() => {
-    // Fetch user
-    supabase.from('users').select('*').eq('id', userId).single().then(({ data }) => setUserData(data));
-    // Fetch banners
-    supabase.from('banners').select('*').eq('isActive', true).then(({ data }) => setBanners(data || []));
-    // Fetch notifications
-    supabase.from('notifications').select('*').eq('isActive', true).then(({ data }) => setNotifications(data || []));
+    // Fetch user from mock data
+    const user = mockUsers.find(u => u.id === userId);
+    setUserData(user || null);
+    
+    // Convert mock banners to match Banner interface
+    setBanners(mockBanners.map(banner => ({
+      ...banner,
+      content: banner.message
+    })));
+    
+    // Set notifications
+    setNotifications(mockNotifications);
   }, [userId]);
 
   const getBannerIcon = (type: string) => {

@@ -10,10 +10,10 @@ export const mockUsers = [
     password: 'testpassword',
     address: '123 Main St',
     location: { lat: 12.9716, lng: 77.5946 },
-    status: 'approved',
-    planType: 'monthly',
-    paymentStatus: 'paid',
-    timePreference: 'afternoon',
+    status: 'approved' as const,
+    planType: 'monthly' as const,
+    paymentStatus: 'paid' as const,
+    timePreference: 'afternoon' as const,
     estimatedDeliveryTime: '01:00 PM',
     joinedDate: '2024-06-01',
     expiryDate: '2024-07-01',
@@ -27,10 +27,10 @@ export const mockUsers = [
     password: 'janepass',
     address: '456 Side St',
     location: { lat: 12.2958, lng: 76.6394 },
-    status: 'pending',
-    planType: 'weekly',
-    paymentStatus: 'unpaid',
-    timePreference: 'night',
+    status: 'pending' as const,
+    planType: 'weekly' as const,
+    paymentStatus: 'unpaid' as const,
+    timePreference: 'night' as const,
     estimatedDeliveryTime: '09:00 PM',
     joinedDate: '2024-06-05',
     expiryDate: undefined,
@@ -84,7 +84,7 @@ export const mockBanners = [
     id: 'BN001',
     title: 'Welcome!',
     message: 'Welcome to Kerala Kitchen!',
-    type: 'info',
+    type: 'info' as const,
     isActive: true,
     createdAt: '2024-06-01'
   },
@@ -92,7 +92,27 @@ export const mockBanners = [
     id: 'BN002',
     title: 'Payment Due',
     message: 'Your payment is pending.',
-    type: 'warning',
+    type: 'warning' as const,
+    isActive: true,
+    createdAt: '2024-06-05'
+  }
+];
+
+// Mock Notifications
+export const mockNotifications = [
+  {
+    id: 'NT001',
+    title: 'System Maintenance',
+    message: 'System will be down for maintenance tonight.',
+    type: 'warning' as const,
+    isActive: true,
+    createdAt: '2024-06-01'
+  },
+  {
+    id: 'NT002',
+    title: 'Emergency Alert',
+    message: 'Delivery service temporarily suspended due to weather.',
+    type: 'emergency' as const,
     isActive: true,
     createdAt: '2024-06-05'
   }

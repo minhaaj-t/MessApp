@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Star, Send, MessageSquare } from 'lucide-react';
-import { supabase } from '../../supabaseClient';
+import { mockUsers } from '../../data/mockData';
 
 interface Feedback {
   id: string;
@@ -24,7 +24,15 @@ const FeedbackSection: React.FC<FeedbackSectionProps> = ({ userId }) => {
   const [feedback, setFeedback] = useState<Feedback[]>([]);
 
   useEffect(() => {
-    supabase.from('feedback').select('*').eq('status', 'approved').then(({ data }) => setFeedback(data || []));
+    setFeedback(mockUsers.map((user) => ({
+      id: user.id,
+      userId: user.id,
+      userName: user.name,
+      message: '',
+      rating: 0,
+      status: 'approved',
+      submittedAt: new Date().toISOString(),
+    })));
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {

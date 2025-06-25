@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Plus, Edit2, Trash2, Save, X, Bell, AlertTriangle, Info, CheckCircle } from 'lucide-react';
-import { supabase } from '../../supabaseClient';
+import { mockBanners, mockNotifications } from '../../data/mockData';
 
 interface Banner {
   id: string;
   title: string;
   content: string;
-  type: string;
+  type: 'info' | 'warning' | 'success' | 'emergency';
   isActive: boolean;
   createdAt: string;
 }
@@ -15,7 +15,7 @@ interface Notification {
   id: string;
   title: string;
   message: string;
-  type: string;
+  type: 'info' | 'warning' | 'emergency';
   isActive: boolean;
   createdAt: string;
 }
@@ -34,8 +34,12 @@ const BannerManagement: React.FC = () => {
   });
 
   useEffect(() => {
-    supabase.from('banners').select('*').then(({ data }) => setBanners(data || []));
-    supabase.from('notifications').select('*').then(({ data }) => setNotifications(data || []));
+    // Convert mock data to match interfaces
+    setBanners(mockBanners.map(banner => ({
+      ...banner,
+      content: banner.message
+    })));
+    setNotifications(mockNotifications);
   }, []);
 
   const handleSave = () => {

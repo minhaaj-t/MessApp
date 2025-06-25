@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TrendingUp, TrendingDown, Users, Package, DollarSign, Star, CreditCard, AlertTriangle, CheckCircle, Calendar, BarChart3, PieChart, Activity, Clock } from 'lucide-react';
-import { supabase } from '../../supabaseClient';
+import { mockUsers } from '../../data/mockData';
 
 const Analytics: React.FC = () => {
   const [users, setUsers] = useState<any[]>([]);
@@ -8,8 +8,8 @@ const Analytics: React.FC = () => {
   const [timeRange, setTimeRange] = useState<'week' | 'month' | 'quarter'>('month');
 
   useEffect(() => {
-    supabase.from('users').select('*').then(({ data }) => setUsers(data || []));
-    supabase.from('payments').select('*').then(({ data }) => setPayments(data || []));
+    setUsers(mockUsers);
+    setPayments(mockUsers);
   }, []);
 
   // Calculate financial metrics from mock data

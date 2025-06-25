@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Clock, CheckCircle, XCircle, User, Calendar } from 'lucide-react';
-import { supabase } from '../../supabaseClient';
+import { Clock, Users, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
+import { mockUsers } from '../../data/mockData';
 
 interface DeliveryRequest {
   id: string;
@@ -20,8 +20,31 @@ const DeliveryRequests: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
 
   useEffect(() => {
-    supabase.from('delivery_requests').select('*').then(({ data }) => setRequests(data || []));
-    supabase.from('users').select('*').then(({ data }) => setUsers(data || []));
+    setRequests([
+      {
+        id: '1',
+        userId: '1',
+        userName: 'Test User',
+        currentTime: '01:00 PM',
+        requestedTime: '09:00 PM',
+        reason: 'Work schedule change',
+        status: 'pending',
+        submittedAt: '2024-06-01T10:00:00Z',
+        processedAt: undefined
+      },
+      {
+        id: '2',
+        userId: '2',
+        userName: 'Jane Doe',
+        currentTime: '09:00 PM',
+        requestedTime: '01:00 PM',
+        reason: 'Personal preference',
+        status: 'approved',
+        submittedAt: '2024-06-05T14:00:00Z',
+        processedAt: '2024-06-06T09:00:00Z'
+      }
+    ]);
+    setUsers(mockUsers);
   }, []);
 
   const filteredRequests = requests.filter(request => 
@@ -113,7 +136,7 @@ const DeliveryRequests: React.FC = () => {
         <div className="bg-white p-6 rounded-xl shadow-lg">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <User className="w-6 h-6 text-blue-600" />
+              <Users className="w-6 h-6 text-blue-600" />
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-800">{requests.length}</p>
@@ -168,13 +191,13 @@ const DeliveryRequests: React.FC = () => {
                     </div>
                     <div className="space-y-2">
                       <div className="flex items-center gap-2 text-sm">
-                        <Calendar className="w-4 h-4 text-gray-500" />
+                        <Clock className="w-4 h-4 text-gray-500" />
                         <span className="text-gray-600">Submitted:</span>
                         <span className="text-gray-800">{new Date(request.submittedAt).toLocaleDateString()}</span>
                       </div>
                       {request.processedAt && (
                         <div className="flex items-center gap-2 text-sm">
-                          <Calendar className="w-4 h-4 text-gray-500" />
+                          <Clock className="w-4 h-4 text-gray-500" />
                           <span className="text-gray-600">Processed:</span>
                           <span className="text-gray-800">{new Date(request.processedAt).toLocaleDateString()}</span>
                         </div>

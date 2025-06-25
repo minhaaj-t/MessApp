@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Calendar, Clock, Edit, Save, X, AlertCircle, Sun, Moon } from 'lucide-react';
-import { supabase } from '../../supabaseClient';
+import { mockUsers } from '../../data/mockData';
 import { User } from '../../types';
 
 interface FoodMenuProps {
@@ -25,8 +25,13 @@ const FoodMenu: React.FC<FoodMenuProps> = ({ userId }) => {
   const [specialNote, setSpecialNote] = useState('');
 
   useEffect(() => {
-    supabase.from('users').select('*').eq('id', userId).single().then(({ data }) => setUser(data));
-    supabase.from('daily_menus').select('*').then(({ data }) => setMenus(data || []));
+    setUser(mockUsers.find(u => u.id === userId) || null);
+    setMenus([
+      { id: '1', date: '2023-04-01', timeSlot: 'afternoon', items: [], notes: 'This is a note for today\'s afternoon menu', cutoffTime: '12:00' },
+      { id: '2', date: '2023-04-01', timeSlot: 'night', items: [], notes: 'This is a note for today\'s night menu', cutoffTime: '12:00' },
+      { id: '3', date: '2023-04-02', timeSlot: 'afternoon', items: [], notes: 'This is a note for tomorrow\'s afternoon menu', cutoffTime: '12:00' },
+      { id: '4', date: '2023-04-02', timeSlot: 'night', items: [], notes: 'This is a note for tomorrow\'s night menu', cutoffTime: '12:00' }
+    ]);
   }, [userId]);
 
   const today = new Date().toISOString().split('T')[0];

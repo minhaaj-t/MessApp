@@ -51,8 +51,8 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-2 bg-gradient-to-br from-emerald-50 to-green-50">
-      <div className="bg-white p-4 sm:p-8 rounded-2xl shadow-xl w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-green-50 flex items-center justify-center px-4">
+      <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full">
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
             <span className="text-white font-bold text-2xl">AK</span>
@@ -71,7 +71,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
                 name="email"
                 value={credentials.email}
                 onChange={handleInputChange}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-base"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 placeholder="Enter your email"
                 required
               />
@@ -87,7 +87,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
                 name="password"
                 value={credentials.password}
                 onChange={handleInputChange}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-base"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 placeholder="Enter your password"
                 required
               />
@@ -104,7 +104,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onNavigate }) => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 text-white py-3 rounded-lg font-semibold transition-colors text-base"
+            className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 text-white py-3 rounded-lg font-semibold transition-colors"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>

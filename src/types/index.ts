@@ -10,7 +10,7 @@ export interface User {
     lng: number;
   };
   status: 'pending' | 'approved' | 'rejected';
-  planType: 'monthly' | 'yearly';
+  planType: 'monthly' | 'yearly' | 'weekly';
   paymentStatus: 'paid' | 'half_paid' | 'unpaid';
   timePreference: 'afternoon' | 'night' | 'both';
   estimatedDeliveryTime: string;

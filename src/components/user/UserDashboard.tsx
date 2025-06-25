@@ -55,9 +55,9 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ userId, onLogout }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center w-full max-w-md mx-auto">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b w-full fixed top-0 left-0 right-0 z-40 max-w-md mx-auto">
+      <div className="bg-white shadow-sm border-b">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center space-x-3">
@@ -80,33 +80,37 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ userId, onLogout }) => {
         </div>
       </div>
 
-      <div className="container mx-auto px-2 pt-20 pb-20 w-full">
-        <div className="flex flex-col gap-6">
-          {/* Tabs as horizontal scroll on mobile */}
-          <div className="flex overflow-x-auto gap-2 pb-2">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 min-w-[120px] flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
-                  activeTab === tab.id
-                    ? 'bg-emerald-500 text-white'
-                    : 'text-gray-700 bg-gray-100 hover:bg-gray-200'
-                }`}
-              >
-                <tab.icon className="w-5 h-5" />
-                <span>{tab.label}</span>
-              </button>
-            ))}
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Sidebar */}
+          <div className="lg:w-64 flex-shrink-0">
+            <div className="bg-white rounded-xl shadow-lg p-4">
+              <nav className="space-y-2">
+                {tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors ${
+                      activeTab === tab.id
+                        ? 'bg-emerald-500 text-white'
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`}
+                  >
+                    <tab.icon className="w-5 h-5" />
+                    <span className="font-medium">{tab.label}</span>
+                  </button>
+                ))}
+              </nav>
+            </div>
           </div>
 
           {/* Main Content */}
           <div className="flex-1">
             {renderContent()}
 
-            <div className="grid grid-cols-1 gap-4 mb-8 mt-6">
-              <div className="bg-white p-4 rounded-xl shadow-lg">
-                <div className="flex items-center justify-between mb-2">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              <div className="bg-white p-6 rounded-xl shadow-lg">
+                <div className="flex items-center justify-between mb-4">
                   <div className="p-2 bg-emerald-100 rounded-lg">
                     <Calendar className="w-6 h-6 text-emerald-600" />
                   </div>
@@ -116,8 +120,8 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ userId, onLogout }) => {
                 <p className="text-sm text-gray-600">Since {new Date(userData.joinedDate).toLocaleDateString()}</p>
               </div>
 
-              <div className="bg-white p-4 rounded-xl shadow-lg">
-                <div className="flex items-center justify-between mb-2">
+              <div className="bg-white p-6 rounded-xl shadow-lg">
+                <div className="flex items-center justify-between mb-4">
                   <div className="p-2 bg-blue-100 rounded-lg">
                     <Clock className="w-6 h-6 text-blue-600" />
                   </div>
@@ -139,8 +143,8 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ userId, onLogout }) => {
                 )}
               </div>
 
-              <div className="bg-white p-4 rounded-xl shadow-lg">
-                <div className="flex items-center justify-between mb-2">
+              <div className="bg-white p-6 rounded-xl shadow-lg">
+                <div className="flex items-center justify-between mb-4">
                   <div className="p-2 bg-purple-100 rounded-lg">
                     <Package className="w-6 h-6 text-purple-600" />
                   </div>
@@ -152,8 +156,8 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ userId, onLogout }) => {
                 </p>
               </div>
 
-              <div className="bg-white p-4 rounded-xl shadow-lg">
-                <div className="flex items-center justify-between mb-2">
+              <div className="bg-white p-6 rounded-xl shadow-lg">
+                <div className="flex items-center justify-between mb-4">
                   <div className="p-2 bg-orange-100 rounded-lg">
                     <CreditCard className="w-6 h-6 text-orange-600" />
                   </div>

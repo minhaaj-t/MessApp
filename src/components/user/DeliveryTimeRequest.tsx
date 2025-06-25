@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Clock, Send, CheckCircle, AlertCircle } from 'lucide-react';
-import { supabase } from '../../supabaseClient';
+import { mockUsers } from '../../data/mockData';
 import { User } from '../../types';
 
 interface DeliveryTimeRequestProps {
@@ -28,8 +28,19 @@ const DeliveryTimeRequest: React.FC<DeliveryTimeRequestProps> = ({ userId }) => 
   const [userRequests, setUserRequests] = useState<DeliveryRequest[]>([]);
 
   useEffect(() => {
-    supabase.from('users').select('*').eq('id', userId).single().then(({ data }) => setUserData(data));
-    supabase.from('delivery_requests').select('*').eq('userId', userId).then(({ data }) => setUserRequests(data || []));
+    setUserData(mockUsers.find(u => u.id === userId) || null);
+    setUserRequests([
+      {
+        id: '1',
+        userId,
+        userName: 'Test User',
+        currentTime: '01:00 PM',
+        requestedTime: '09:00 PM',
+        reason: 'Work schedule change',
+        status: 'pending',
+        submittedAt: '2024-06-01T10:00:00Z'
+      }
+    ]);
   }, [userId]);
 
   const getDefaultDeliveryTime = (timeSlot: 'afternoon' | 'night') => {
@@ -39,23 +50,23 @@ const DeliveryTimeRequest: React.FC<DeliveryTimeRequestProps> = ({ userId }) => 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    await supabase.from('delivery_requests').insert([
-      {
-        userId,
-        userName: userData?.name || '',
-        currentTime: getDefaultDeliveryTime(requestedTimeSlot),
-        requestedTime,
-        reason,
-        status: 'pending',
-        submittedAt: new Date().toISOString()
-      }
-    ]);
     setTimeout(() => {
       setSubmitted(false);
       setRequestedTime('');
       setRequestedTimeSlot('afternoon');
       setReason('');
-      supabase.from('delivery_requests').select('*').eq('userId', userId).then(({ data }) => setUserRequests(data || []));
+      setUserRequests([
+        {
+          id: '1',
+          userId,
+          userName: 'Test User',
+          currentTime: '01:00 PM',
+          requestedTime: '09:00 PM',
+          reason: 'Work schedule change',
+          status: 'pending',
+          submittedAt: '2024-06-01T10:00:00Z'
+        }
+      ]);
       alert('Delivery time change request submitted! Admin will review and update your delivery time.');
     }, 2000);
   };
